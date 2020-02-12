@@ -40,7 +40,7 @@ const BrushChat: FC<BrushChatProps> = ({
 
   const handleBrushClick = useCallback(() => {
     setFilteredStock(data);
-  }, []);
+  }, [data]);
 
   const brushMargin: Margin = { top: 0, bottom: 20, left: 50, right: 20 };
   const chartSeparation = 10;
@@ -80,18 +80,18 @@ const BrushChat: FC<BrushChatProps> = ({
     () =>
       scaleTime<number>({
         range: [0, xBrushMax],
-        domain: extent(stock, getDate) as [Date, Date]
+        domain: extent(data, getDate) as [Date, Date]
       }),
-    [xBrushMax, stock]
+    [xBrushMax, data]
   );
   const brushStockScale = useMemo(
     () =>
       scaleLinear<number>({
         range: [yBrushMax, 0],
-        domain: [0, (max(stock, getStockValue) || 0) + yBrushMax / 3],
+        domain: [0, (max(data, getStockValue) || 0) + yBrushMax / 3],
         nice: true
       }),
-    [stock, yBrushMax]
+    [data, yBrushMax]
   );
 
   return (
@@ -102,7 +102,7 @@ const BrushChat: FC<BrushChatProps> = ({
         fromOpacity={0.8}
         to="#7c1d6f"
         toOpacity={0.8}
-      ></LinearGradient>
+      />
       <rect
         x={0}
         y={0}
@@ -120,7 +120,7 @@ const BrushChat: FC<BrushChatProps> = ({
         yMax={yMax}
         xScale={dateScale}
         yScale={stockScale}
-      ></AreaChart>
+      />
 
       <AreaChart
         hideBottomAxis
